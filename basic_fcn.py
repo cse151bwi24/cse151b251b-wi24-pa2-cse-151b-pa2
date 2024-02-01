@@ -35,9 +35,9 @@ class FCN(nn.Module):
         x1 = self.bnd1(self.relu(self.conv1(x)))
         # Complete the forward function for the rest of the encoder
 
-        y1 = self.bn1(self.relu(self.deconv1(__)))
+        y1 = self.bn1(self.relu(self.deconv1(x1)))
         # Complete the forward function for the rest of the decoder
 
-        score = self.classifier(__)
+        score = self.classifier(y1)
 
         return score  # size=(N, n_class, H, W)
