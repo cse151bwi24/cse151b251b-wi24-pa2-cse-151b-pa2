@@ -110,8 +110,8 @@ def val(epoch):
     """
     Validate the deep learning model on a validation dataset.
 
-    - Set model to evaluation mode.
-    - Disable gradient calculations.
+    - Set model to evaluation mode. DONE
+    - Disable gradient calculations. DONE
     - Iterate over validation data loader:
         - Perform forward pass to get outputs.
         - Compute loss and accumulate it.
@@ -133,10 +133,32 @@ def val(epoch):
 
     with torch.no_grad(): # we don't need to calculate the gradient in the validation/testing
 
+        # Iterate through Validation Set
         for iter, (input, label) in enumerate(val_loader):
+            # label = (16, 224, 224) / batch size 16 of 244*244 masks
+            # output = (16, 21, 224, 224) / batch size 16 of 21 possible classes of 244*244 masks
 
+            # Take advantage of cuda if possible
+            if device == "cuda":
+                input = input.cuda()
 
+            # Perform forward pass to get outputs.
+            output = fcn_model.forward(input)
+            N, numClass, H, W = output.shape
 
+            # Find the prediction for each pixel
+            prediction = output.view(N, n_class, -1).argmax(dim=1).view(N, H, W)
+
+            # Compute loss and accumulate it.
+            loss = criterion(prediction, label)
+            losses.append(loss)
+            
+            # Calculate and accumulate mean Intersection over Union (IoU) scores and pixel accuracy.
+            meanIOU = util.iou(prediction, label, n_class)
+            mean_iou_scores.append(meanIOU)
+
+            acc = util.pixel_acc(prediction, label)
+            accuracy.append(acc)
 
     print(f"Loss at epoch: {epoch} is {np.mean(losses)}")
     print(f"IoU at epoch: {epoch} is {np.mean(mean_iou_scores)}")
@@ -163,15 +185,43 @@ def modelTest():
         None. Outputs average test metrics to the console.
     """
 
+    # Asssume model loaded with the best weights.
+
     fcn_model.eval()  # Put in eval mode (disables batchnorm/dropout) !
 
-
+    losses = []
+    mean_iou_scores = []
+    accuracy = []
 
     with torch.no_grad():  # we don't need to calculate the gradient in the validation/testing
 
+        # Iterate through Test Set
         for iter, (input, label) in enumerate(test_loader):
+            # Take advantage of cuda if possible
+            if device == "cuda":
+                input = input.cuda()
 
+            # Perform forward pass to get outputs.
+            output = fcn_model.forward(input)
+            N, numClass, H, W = output.shape
 
+            # Find the prediction for each pixel
+            prediction = output.view(N, n_class, -1).argmax(dim=1).view(N, H, W)
+
+            # Compute loss and accumulate it.
+            loss = criterion(prediction, label)
+            losses.append(loss)
+            
+            # Calculate and accumulate mean Intersection over Union (IoU) scores and pixel accuracy.
+            meanIOU = util.iou(prediction, label, n_class)
+            mean_iou_scores.append(meanIOU)
+
+            acc = util.pixel_acc(prediction, label)
+            accuracy.append(acc)
+
+    print(f"Loss at Test: {np.mean(losses)}")
+    print(f"IoU at Test: {np.mean(mean_iou_scores)}")
+    print(f"Pixel acc at Test: {np.mean(accuracy)}")
 
     fcn_model.train()  #TURNING THE TRAIN MODE BACK ON TO ENABLE BATCHNORM/DROPOUT!!
 
