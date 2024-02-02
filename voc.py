@@ -47,10 +47,24 @@ def make_dataset(mode):
             item = (os.path.join(img_path, it + '.jpg'), os.path.join(mask_path, it + '.png'))
             items.append(item)
     elif mode == 'val':
-        #TODO
+        img_path = os.path.join(root, 'VOCdevkit', 'VOC2007', 'JPEGImages')
+        mask_path = os.path.join(root, 'VOCdevkit', 'VOC2007', 'SegmentationClass')
+        data_list = [l.strip('\n') for l in open(os.path.join(
+            root, 'VOCdevkit', 'VOC2007', 'ImageSets', 'Segmentation', 'val.txt')).readlines()]
+        for it in data_list:
+            item = (os.path.join(img_path, it + '.jpg'), os.path.join(mask_path, it + '.png'))
+            items.append(item)
     else:
-        # TODO FOR TEST SET
+        img_path = os.path.join(root, 'VOCdevkit', 'VOC2007', 'JPEGImages')
+        mask_path = os.path.join(root, 'VOCdevkit', 'VOC2007', 'SegmentationClass')
+        data_list = [l.strip('\n') for l in open(os.path.join(
+            root, 'VOCdevkit', 'VOC2007', 'ImageSets', 'Segmentation', 'test.txt')).readlines()]
+        for it in data_list:
+            item = (os.path.join(img_path, it + '.jpg'), os.path.join(mask_path, it + '.png'))
+            items.append(item)
         
+    
+    
     return items
 
 
