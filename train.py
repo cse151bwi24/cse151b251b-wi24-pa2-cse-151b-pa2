@@ -49,12 +49,12 @@ n_class = 21
 fcn_model = FCN(n_class=n_class)
 fcn_model.apply(init_weights)
 
-device =   # TODO determine which device to use (cuda or cpu)
+device = 'cuda' # TODO / DONE determine which device to use (cuda or cpu)
 
-optimizer = # TODO choose an optimizer
-criterion =  # TODO Choose an appropriate loss function from https://pytorch.org/docs/stable/_modules/torch/nn/modules/loss.html
+optimizer = torch.optim.Adam(fcn_model.parameters()) # TODO / DONE choose an optimizer
+criterion = torch.nn.L1Loss() # TODO / DONE Choose an appropriate loss function from https://pytorch.org/docs/stable/_modules/torch/nn/modules/loss.html
 
-fcn_model =  # TODO transfer the model to the device
+fcn_model = fcn_model.to(device) # TODO / DONE transfer the model to the device
 
 
 # TODO
@@ -78,20 +78,21 @@ def train():
     for epoch in range(epochs):
         ts = time.time()
         for iter, (inputs, labels) in enumerate(train_loader):
-            # TODO  reset optimizer gradients
-
+            # TODO / DONE  reset optimizer gradients
+            
+            optimizer.zero_grad()
 
             # both inputs and labels have to reside in the same device as the model's
-            inputs =  inputs.to()# TODO transfer the input to the same device as the model's
-            labels =   # TODO transfer the labels to the same device as the model's
+            inputs =  inputs.to(device)# TODO / DONE transfer the input to the same device as the model's
+            labels =  labels.to(device) # TODO / DONE transfer the labels to the same device as the model's
 
-            outputs =  # TODO  Compute outputs. we will not need to transfer the output, it will be automatically in the same device as the model's!
+            outputs = fcn_model(inputs) # TODO / DONE Compute outputs. we will not need to transfer the output, it will be automatically in the same device as the model's!
 
-            loss =   #TODO  calculate loss
+            loss = criterion(outputs, labels) #TODO / DONE calculate loss
 
-            # TODO  backpropagate
+            loss.backward() # TODO / DONE backpropagate
 
-            # TODO  update the weights
+            optimizer.step() # TODO / DONE update the weights
 
 
             if iter % 10 == 0:
