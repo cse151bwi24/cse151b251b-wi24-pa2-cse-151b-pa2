@@ -38,24 +38,33 @@ def make_dataset(mode):
     """
     assert mode in ['train', 'val', 'test']
     items = []
-    img_path = os.path.join(root, 'VOCdevkit', 'VOC2007', 'JPEGImages')
-    mask_path = os.path.join(root, 'VOCdevkit', 'VOC2007', 'SegmentationClass')
-
     if mode == 'train':
-        data_list_file = 'train.txt'
+        img_path = os.path.join(root, 'VOCdevkit', 'VOC2007', 'JPEGImages')
+        mask_path = os.path.join(root, 'VOCdevkit', 'VOC2007', 'SegmentationClass')
+        data_list = [l.strip('\n') for l in open(os.path.join(
+            root, 'VOCdevkit', 'VOC2007', 'ImageSets', 'Segmentation', 'train.txt')).readlines()]
+        for it in data_list:
+            item = (os.path.join(img_path, it + '.jpg'), os.path.join(mask_path, it + '.png'))
+            items.append(item)
     elif mode == 'val':
-        data_list_file = 'val.txt'
-    else:  # mode == 'test'
-        data_list_file = 'test.txt'
-
-    data_list_path = os.path.join(root, 'VOCdevkit', 'VOC2007', 'ImageSets', 'Segmentation', data_list_file)
-    data_list = [line.strip('\n') for line in open(data_list_path).readlines()]
-
-    for item_name in data_list:
-        image_file = os.path.join(img_path, item_name + '.jpg')
-        mask_file = os.path.join(mask_path, item_name + '.png')
-        items.append((image_file, mask_file))
-
+        img_path = os.path.join(root, 'VOCdevkit', 'VOC2007', 'JPEGImages')
+        mask_path = os.path.join(root, 'VOCdevkit', 'VOC2007', 'SegmentationClass')
+        data_list = [l.strip('\n') for l in open(os.path.join(
+            root, 'VOCdevkit', 'VOC2007', 'ImageSets', 'Segmentation', 'val.txt')).readlines()]
+        for it in data_list:
+            item = (os.path.join(img_path, it + '.jpg'), os.path.join(mask_path, it + '.png'))
+            items.append(item)
+    else:
+        img_path = os.path.join(root, 'VOCdevkit', 'VOC2007', 'JPEGImages')
+        mask_path = os.path.join(root, 'VOCdevkit', 'VOC2007', 'SegmentationClass')
+        data_list = [l.strip('\n') for l in open(os.path.join(
+            root, 'VOCdevkit', 'VOC2007', 'ImageSets', 'Segmentation', 'test.txt')).readlines()]
+        for it in data_list:
+            item = (os.path.join(img_path, it + '.jpg'), os.path.join(mask_path, it + '.png'))
+            items.append(item)
+        
+    
+    
     return items
 
 

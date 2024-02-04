@@ -13,8 +13,10 @@ def iou(pred, target, n_classes = 21):
     Returns:
         float: Mean IoU across all classes.
     """
+    
     iou_list = []
-    pred = torch.argmax(pred, dim=1)
+    #pred = torch.argmax(pred, dim=1)
+    
     for cls in range(n_classes):
         pred_inds = pred == cls
         target_inds = target == cls
@@ -37,7 +39,7 @@ def pixel_acc(pred, target):
     Returns:
         float: Pixel-wise accuracy.
     """
-    pred = torch.argmax(pred, dim=1)
+    #pred = torch.argmax(pred, dim=1)
     correct = (pred == target).sum().item()
     total = target.numel()
     return correct / total
