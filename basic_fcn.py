@@ -2,7 +2,6 @@ import torch.nn as nn
 
 #ToDO Fill in the __ values
 class FCN(nn.Module):
-
     def __init__(self, n_class):
         # TODO: Skeleton code given for default FCN network. Fill in the blanks with the shapes
         super().__init__()
