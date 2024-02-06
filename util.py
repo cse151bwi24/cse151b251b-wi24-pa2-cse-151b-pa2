@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 
-def iou(pred, target, n_classes = 21):
+def iou(pred, target, n_classes = 21, verbose = False):
     """
     Calculate the Intersection over Union (IoU) for predictions.
 
@@ -22,10 +22,15 @@ def iou(pred, target, n_classes = 21):
         target_inds = target == cls
         intersection = (pred_inds[target_inds]).long().sum().item()  # Intersection points
         union = pred_inds.long().sum().item() + target_inds.long().sum().item() - intersection  # Union points
+        
+#         iou_list.append(float(intersection) / float(max(union, 1)))
         if union == 0:
             iou_list.append(float('nan'))  # Avoid division by zero
         else:
             iou_list.append(float(intersection) / float(max(union, 1)))
+    if(verbose):
+        print("iou list")
+        print(iou_list)
     return np.nanmean(iou_list)  # Mean IoU
 
 def pixel_acc(pred, target):
@@ -42,4 +47,5 @@ def pixel_acc(pred, target):
     #pred = torch.argmax(pred, dim=1)
     correct = (pred == target).sum().item()
     total = target.numel()
+    
     return correct / total
