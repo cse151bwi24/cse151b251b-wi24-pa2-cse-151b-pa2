@@ -1,6 +1,8 @@
 import os
 from PIL import Image
 from torch.utils import data
+import random
+import torchvision.transforms as standard_transforms
 
 num_classes = 21
 ignore_label = 255
@@ -105,6 +107,33 @@ class VOC(data.Dataset):
             img = self.transform(img)
         if self.target_transform is not None:
             mask = self.target_transform(mask)
+          
+        # add random horizontal flipping:
+        if random.random() > 0.5:
+            img = standard_transforms.functional.hflip(img)
+            mask = standard_transforms.functional.hflip(mask)
+        
+#         print(img.shape)
+#         print(mask.shape)
+        
+        mask = mask.unsqueeze(0)
+        
+        # add random rotations
+        if random.random() < 0.25:
+            img = standard_transforms.functional.rotate(img, 5, fill = 0)
+            mask = standard_transforms.functional.rotate(mask, 5, fill = 0)
+        
+#         print(type(img))
+#         print(type(mask))
+        
+        mask = mask.squeeze()
+        
+        # Random crop
+#         i, j, h, w = standard_transforms.RandomCrop.get_params(
+#             img, output_size=(150, 150))
+#         img = standard_transforms.functional.crop(img, i, j, h, w)
+#         mask = standard_transforms.functional.crop(mask, i, j, h, w)
+        
 
         mask[mask==ignore_label]=0
 
