@@ -113,18 +113,12 @@ class VOC(data.Dataset):
             img = standard_transforms.functional.hflip(img)
             mask = standard_transforms.functional.hflip(mask)
         
-#         print(img.shape)
-#         print(mask.shape)
-        
         mask = mask.unsqueeze(0)
         
         # add random rotations
         if random.random() < 0.25:
             img = standard_transforms.functional.rotate(img, 5, fill = 0)
             mask = standard_transforms.functional.rotate(mask, 5, fill = 0)
-        
-#         print(type(img))
-#         print(type(mask))
         
         mask = mask.squeeze()
         
