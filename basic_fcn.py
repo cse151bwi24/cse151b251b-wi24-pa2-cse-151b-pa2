@@ -50,8 +50,12 @@ class FCN(nn.Module):
         x = self.relu(self.bn3(self.deconv3(x)))
         x = self.relu(self.bn4(self.deconv4(x)))
         x = self.relu(self.bn5(self.deconv5(x)))
+        
+        print("basic fcn")
+        print(x.shape)
 
         # Classifier
         score = self.classifier(x)
+        print(score.shape)
 
         return score  # size=(N, n_class, H, W)
