@@ -9,11 +9,12 @@ class FCN_ResNet34(nn.Module):
         # Load pre-trained ResNet34
         resnet34 = models.resnet34(pretrained=True)
 
+        self.encoder = nn.Sequential(*list(resnet34.children())[:-2])
+        
         # Freeze the early layers or the entire encoder as needed
-        for param in resnet34.parameters():
+        for param in self.encoder.parameters():
             param.requires_grad = False
 
-        self.encoder = nn.Sequential(*list(resnet34.children())[:-2])
         self.relu = nn.ReLU(inplace=True)
 
         # Decoder (as per the original FCN structure, adjusted for ResNet34 output channels)
