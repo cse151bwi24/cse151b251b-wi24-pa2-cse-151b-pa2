@@ -1,8 +1,13 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/y_ddFRCO)
 # PA2 - Semantic Segmentation using FCN
 
-## Please refer the PA2 pdf for instructions!
+Team Name: CSE 151B PA2
+Github repo: https://github.com/cse151bwi24/cse151b251b-wi24-pa2-cse-151b-pa2
+Members: Jiapei Chen, Siddharth Gaywala, Jinshi He, Jong Hyun Park
 
-### You are free to create new functions, change existing function signatures, add/remove member variables/functions, change returns of a function in the provided start code but you need to maintain the overall given structure of the code.
 
-### We have marked sections to be implemented by you as TODO for your convenience
+# PA2 Codes
+1. Our models can be trained in Jupyter Notebook files.
+2. Baseline model, cosine annealing learning rate scheduler model, image transformation model, and weighted loss model can be found in train_CNN.ipynb.
+3. Our custom FCN can be found in _________.
+4. ResNet34 model can be found in _________.
+5. U_net model can be found in _________.
