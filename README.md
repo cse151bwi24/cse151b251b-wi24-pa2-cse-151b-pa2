@@ -8,6 +8,6 @@ Members: Jiapei Chen, Siddharth Gaywala, Jinshi He, Jong Hyun Park
 # PA2 Codes
 1. Our models can be trained in Jupyter Notebook files.
 2. Baseline model, cosine annealing learning rate scheduler model, image transformation model, and weighted loss model can be found in train_CNN.ipynb.
-3. Our custom FCN can be found in _________.
+3. Our custom FCN can be found in train_custom_fcn.ipynb.
 4. ResNet34 model can be found in Resnet34_train_CNN.ipynb.
-5. U_net model can be found in _________.
+5. U_net model can be found in train_Unet.ipynb.
