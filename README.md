@@ -1,8 +1,8 @@
 # PA2 - Semantic Segmentation using FCN
 
-Team Name: CSE 151B PA2
-Github repo: https://github.com/cse151bwi24/cse151b251b-wi24-pa2-cse-151b-pa2
-Members: Jiapei Chen, Siddharth Gaywala, Jinshi He, Jong Hyun Park
+Team Name: CSE 151B PA2  
+Github repo: https://github.com/cse151bwi24/cse151b251b-wi24-pa2-cse-151b-pa2  
+Members: Jiapei Chen, Siddharth Gaywala, Jinshi He, Jong Hyun Park  
 
 
 # PA2 Codes
